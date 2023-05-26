@@ -1,5 +1,6 @@
 package com.example.contacts
 
+import android.app.Instrumentation
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -10,8 +11,23 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testViewModel_isAdded() {
+        val repository = ContactRepository()
+        val contact = DummyContact(
+            name = "Kova",
+            surname = "Vedrov",
+            number = "+79854562777"
+        )
+
+        repository.addContact(contact)
+
+        val list = repository.getAllContacts()
+        val lastContact = list.last()
+
+        assertEquals(contact, lastContact)
+
+
     }
 }
