@@ -4,9 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.contacts.MainActivity.Companion.id
 import com.example.contacts.databinding.ActivityEditContactBinding
+import com.example.contacts.ext.hideKeyboard
 
 class EditContactActivity : AppCompatActivity() {
 
@@ -21,18 +23,24 @@ class EditContactActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with (binding) {
-            etEditName.hint = viewModel.getContact(id)?.name.toString()
-            etEditSurname.hint = viewModel.getContact(id)?.surname.toString()
-            etEditNumber.hint = viewModel.getContact(id)?.phoneNumber.toString()
+            etEditName.setText(viewModel.getContact(id)?.name.toString())
+            etEditName.setSelection(etEditName.length())
+
+            etEditSurname.setText(viewModel.getContact(id)?.surname.toString())
+            etEditSurname.setSelection(etEditSurname.length())
+
+            etEditNumber.setText(viewModel.getContact(id)?.phoneNumber.toString())
+            etEditNumber.setSelection(etEditNumber.length())
         }
 
         binding.btnSaveChanges.setOnClickListener {
             viewModel.editContact(
                 id = id,
-                name = isChanged(this.binding.etEditName.text.toString(), viewModel.getContact(id)?.name.toString()),
-                surname = isChanged(this.binding.etEditSurname.text.toString(), viewModel.getContact(id)?.surname.toString()),
-                phoneNumber = isChanged(this.binding.etEditNumber.text.toString(), viewModel.getContact(id)?.phoneNumber.toString()),
+                name = (binding.etEditName.text.toString()),
+                surname = (binding.etEditSurname.text.toString()),
+                phoneNumber = (binding.etEditNumber.text.toString())
             )
+            hideKeyboard()
             startActivity(Intent(this@EditContactActivity, MainActivity::class.java))
             finish()
         }
@@ -48,6 +56,4 @@ class EditContactActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    private fun isChanged(newValue: String, oldValue: String) = newValue.ifEmpty { oldValue }
 }

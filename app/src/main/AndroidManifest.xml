@@ -24,7 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddContactActivity" android:exported="false"/>
+
+        <activity
+            android:name=".AddContactActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible"/>
+
         <activity android:name=".EditContactActivity" android:exported="false"/>
 
     </application>

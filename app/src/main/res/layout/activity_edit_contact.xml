@@ -6,28 +6,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
+        android:id="@+id/etEditName"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
-        android:id="@+id/etEditName"
+        android:nextFocusDown="@id/etEditSurname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"/>
 
     <EditText
+        android:id="@+id/etEditSurname"
         app:layout_constraintTop_toBottomOf="@id/etEditName"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
-        android:id="@+id/etEditSurname"
+        android:nextFocusDown="@id/etNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"/>
 
     <EditText
+        android:id="@+id/etEditNumber"
         app:layout_constraintTop_toBottomOf="@id/etEditSurname"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
-        android:id="@+id/etEditNumber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:inputType="phone"/>
 
     <Button
         android:id="@+id/btnSaveChanges"
