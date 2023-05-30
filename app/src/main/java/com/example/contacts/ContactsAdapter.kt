@@ -30,7 +30,7 @@ class ContactsAdapter(private var activity: Activity) :
         @SuppressLint("SetTextI18n")
         fun bind(contact: Contact?) {
             binding.tvNamePlusSurname.text = "${contact?.name} ${contact?.surname}"
-            binding.tvNumber.text = contact?.phoneNumber
+            binding.tvNumber.text = contact?.number
         }
     }
 

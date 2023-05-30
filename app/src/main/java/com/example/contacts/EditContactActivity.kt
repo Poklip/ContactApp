@@ -4,20 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.contacts.MainActivity.Companion.id
 import com.example.contacts.databinding.ActivityEditContactBinding
 import com.example.contacts.ext.hideKeyboard
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditContactActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditContactBinding
 
+    private val viewModel : MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         val intent = Intent(Intent.ACTION_DIAL)
         binding = ActivityEditContactBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -29,7 +30,7 @@ class EditContactActivity : AppCompatActivity() {
             etEditSurname.setText(viewModel.getContact(id)?.surname.toString())
             etEditSurname.setSelection(etEditSurname.length())
 
-            etEditNumber.setText(viewModel.getContact(id)?.phoneNumber.toString())
+            etEditNumber.setText(viewModel.getContact(id)?.number.toString())
             etEditNumber.setSelection(etEditNumber.length())
         }
 
@@ -38,7 +39,7 @@ class EditContactActivity : AppCompatActivity() {
                 id = id,
                 name = (binding.etEditName.text.toString()),
                 surname = (binding.etEditSurname.text.toString()),
-                phoneNumber = (binding.etEditNumber.text.toString())
+                number = (binding.etEditNumber.text.toString())
             )
             hideKeyboard()
             startActivity(Intent(this@EditContactActivity, MainActivity::class.java))
@@ -52,7 +53,7 @@ class EditContactActivity : AppCompatActivity() {
         }
 
         binding.btnCall.setOnClickListener {
-            intent.data = Uri.parse("tel:" + viewModel.getContact(id)?.phoneNumber.toString())
+            intent.data = Uri.parse("tel:" + viewModel.getContact(id)?.number.toString())
             startActivity(intent)
         }
     }

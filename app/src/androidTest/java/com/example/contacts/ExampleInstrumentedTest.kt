@@ -8,16 +8,14 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.contacts.data.DummyContact
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import org.junit.Rule
-import java.lang.Math.random
-import kotlin.concurrent.thread
 
 /**
  * Instrumented test, which will execute on an Android device.

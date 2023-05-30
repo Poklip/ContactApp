@@ -3,58 +3,39 @@ package com.example.contacts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.realm.Realm
-import io.realm.kotlin.createObject
+import com.example.contacts.data.ContactRepository
 import io.realm.kotlin.delete
 import io.realm.kotlin.deleteFromRealm
-import io.realm.kotlin.where
-import java.util.UUID
 
-class MainViewModel : ViewModel() {
-    private var realm: Realm = Realm.getDefaultInstance()
+class MainViewModel(private val contactRepository: ContactRepository) : ViewModel() {
 
-    val allContacts: LiveData<List<Contact>> = getAllContacts()
+    val allContacts: ContactLiveData
+        get() = getAllContacts() as ContactLiveData
 
-    fun addContact(name: String, surname: String, phoneNumber: String) {
-        realm.executeTransaction {
-            val model = it.createObject<Contact>(UUID.randomUUID().toString()).apply {
-                this.name = name
-                this.surname = surname
-                this.phoneNumber = phoneNumber
-            }
-
-            it.insertOrUpdate(model)
-        }
+    fun addContact(name: String, surname: String, number: String) {
+        contactRepository.addContact(name = name, surname = surname, number = number)
     }
 
-    fun editContact(id: String, name: String, surname: String, phoneNumber: String) {
-        realm.executeTransaction {
-            getContact(id)?.name = name
-            getContact(id)?.surname = surname
-            getContact(id)?.phoneNumber = phoneNumber
-        }
+    fun editContact(id: String, name: String, surname: String, number: String) {
+        contactRepository.editContact(id = id, name = name, surname = surname, number = number)
     }
 
     fun deleteContact(id: String) {
-        realm.executeTransaction {
-            getContact(id)?.deleteFromRealm()
-        }
+        contactRepository.deleteContact(id = id)
     }
 
     fun getContact(id: String) : Contact? {
-        return realm.where(Contact::class.java).equalTo("id", id).findFirst()
+        return contactRepository.getContact(id = id)
     }
 
     fun deleteAllContacts() {
-        realm.executeTransaction {
-            it.delete<Contact>()
-        }
+        contactRepository.deleteAllContacts()
     }
 
 
     private fun getAllContacts(): MutableLiveData<List<Contact>> {
-        val list = MutableLiveData<List<Contact>>()
-        val allContacts = realm.where(Contact::class.java).findAll()
+        val list = ContactLiveData()
+        val allContacts = contactRepository.getContacts()
         list.value = allContacts.subList(0, allContacts.size)
         return list
     }
